@@ -1,0 +1,22 @@
+{
+    "1": {
+        "id": "você",
+        "words": [
+            "você",
+            "voce",
+            "vc",
+            "voc",
+            "vce",
+            "tu"
+        ]
+    },
+    "2": {
+        "id": "também",
+        "words": [
+            "também",
+            "tambem",
+            "tbm",
+            "tb"
+        ]
+    }
+}
