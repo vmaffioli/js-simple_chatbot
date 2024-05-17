@@ -11,12 +11,51 @@
         ]
     },
     "2": {
+        "id": "agência",
+        "words": [
+            "agência",
+            "agencia"
+        ]
+    },
+    "3": {
+        "id": "construção",
+        "words": [
+            "construção",
+            "construcao"
+        ]
+    },
+    "4": {
         "id": "também",
         "words": [
             "também",
             "tambem",
             "tbm",
             "tb"
+        ]
+    },
+    "5": {
+        "id": "são",
+        "words": [
+            "são",
+            "sao"
+        ]
+    },
+    "6": {
+        "id": "que",
+        "words": [
+            "que",
+            "oq",
+            "uq"
+        ]
+    },
+    "7": {
+        "id": "vocês",
+        "words": [
+            "vocês",
+            "voces",
+            "vcs",
+            "vocs",
+            "vces"
         ]
     }
 }

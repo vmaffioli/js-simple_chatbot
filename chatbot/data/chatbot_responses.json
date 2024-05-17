@@ -2,17 +2,30 @@
     "q1": {
         "id": "q1",
         "questions": [
-            "você também",
-            "vc tb"
+            "A APORTE PLATAFORMA É UMA CONSTRUTORA ENGENHARIA OU AGENCIA DE EMPREGO PARA EMPREITEIRAS",
+            "A APORTE PLATAFORMA É UMA CONSTRUTORA",
+            "A APORTE PLATAFORMA É UMA AGENCIA DE EMPREGO",
+            "A APORTE PLATAFORMA É UMA EMPREITEIRA",
+            "VOCÊS SÃO UMA EMPREITEIRA",
+            "VOCÊS SÃO UMA CONSTRUTORA",
+            "VOCÊS SÃO UMA AGENCIA DE EMPREGO",
+            "VOCÊS SÃO O QUE",
+            "VOCÊS SÃO OQ",
+            "VOCÊS SÃO UQ"
         ],
-        "answer": "resposta teste"
+        "answer": "Nós somos uma startup de tecnologia que conecta e gerencia negócios e processos operacionais na construção civil, unindo construtores, empreiteiros e fornecedores em um ambiente digital."
     },
     "q2": {
         "id": "q2",
         "questions": [
-            "adad não",
-            "adad"
+            "O QUE É O AMBIENTE DIGITAL PLATAFORMA APORTE",
+            "O QUE É O AMBIENTE DIGITAL",
+            "UQ É O AMBIENTE DIGITAL",
+            "OQ É O AMBIENTE DIGITAL",
+            "O QUE É O AMBIENTE DIGITAL DA PLATAFORMA APORTE",
+            "UQ É O AMBIENTE DIGITAL DA PLATAFORMA APORTE",
+            "OQ É O AMBIENTE DIGITAL DA PLATAFORMA APORTE"
         ],
-        "answer": "resposta teste"
+        "answer": "O ambiente digital da plataforma Aporte conecta usuários na construção civil para negociar e gerenciar negócios com assistência especializada e inteligência artificial."
     }
 }
