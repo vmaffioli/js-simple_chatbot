@@ -124,7 +124,12 @@ import { getResponse } from './chatbot_processor.js'
 
 const  send = async (input = '') => {
 
+    const responses = await getResponse(input);
+    console.log(responses)
 
-    aiMessage(loader, true, botLoadingDelay)
-    setResponse(await getResponse(input), botLoadingDelay + botReplyDelay)
+    responses.forEach(response => {
+      aiMessage(loader, true, botLoadingDelay)
+      setResponse(response, botLoadingDelay + botReplyDelay)
+    });
+
 }

@@ -4,11 +4,14 @@ export async function getResponse(input) {
     const wordsDATA = JSON.parse(JSON.stringify(wordsJSON));
     const inputWordsId = [];
 
+    let responsesMap = new Map();
+    let responses = [];
+
     for (let i = 0; i < inputList.length; i++) {
         Object.values(wordsDATA).forEach(obj => {
             const { id, words } = obj;
             Object.values(words).forEach(word => {
-               // word = " " + word + " "
+                // word = " " + word + " "
 
                 if (inputList[i] === word) {
                     inputWordsId.push(id)
@@ -16,7 +19,7 @@ export async function getResponse(input) {
             });
         });
 
-        console.log(inputWordsId[i])
+        // console.log(inputWordsId[i])
 
         if (inputWordsId[i] !== inputList[i]) {
             inputWordsId.push(inputList[i])
@@ -25,20 +28,19 @@ export async function getResponse(input) {
 
 
     }
-    
+
     //console.log(inputList)
     //console.log(inputWordsId)
     const responsesJSON = await fetchJSON('./chatbot/data/chatbot_responses.json');
     const responsesDATA = JSON.parse(JSON.stringify(responsesJSON));
-    let responses = new Map();
-    let response = '';
+    
+
     Object.values(responsesDATA).forEach(obj => {
         const { id, questions, answer } = obj;
 
 
         Object.values(questions).forEach(question => {
             const questionWords = question.toLowerCase().split(" ");
-            const questionLength = questionWords.length;
             let responseCount = 0;
 
             //for (let i = 0; i < inputList.length; i++) {
@@ -48,65 +50,74 @@ export async function getResponse(input) {
 
                 questionWords.forEach(questionWord => {
 
-                if (questionWord === inputWord) {
-                    ++responseCount;
-                }
-            })
-               console.log(questionWords)
-               console.log(inputWordsId)
-                console.log(questionWords.includes(inputWord))
-              console.log(questionLength + "   " + responseCount)
-                if (responseCount >= questionLength - questionLength * 0.20) {
-                    responses.set(id, answer);
+                    if (questionWord === inputWord) {
+                        ++responseCount;
+                    }
+                })
+                // console.log(questionWords)
+                //  console.log(inputWordsId)
+                //   console.log(questionWords.includes(inputWord))
+                //  console.log(questionLength + "   " + responseCount)
+
+                const similarity = responseCount / questionWords.length * 100;
+
+
+                // console.log(responseCount, similarity)
+
+                if (responseCount != 0 && similarity >= 80) {
+                    responsesMap.set(id, {answer, similarity});
                 }
             });
         });
     });
 
-    if (responses.size === 1) {
-        response = responses.entries().next().value[1];
-    } else if (responses.size > 1) {
+    if(responsesMap.size === 1){
+        //console.log(responsesMap.entries().next().value[1]);
+        const response = responsesMap.entries().next().value[1].answer;
+        responses = [];
+        responses.push(response);
+
+    } else if (responsesMap.size <= 1) {
         // response = "estou em duvida, tenho varias respostas pra essa pergunta"
         // console.log(responses)
 
-        let resMap = new Map();
+        //  console.log(resMap)
+        // console.log(maiorValor + "     " + response)
 
-        responses.forEach(res => {
-            let resCount = 0;
 
-            inputWordsId.forEach(inputWord => {
-                if (res.includes(inputWord)) {
-                    resMap.set(res, resCount)
-                    ++resCount;
+        let maxItem = [];
+        let maxSimilarity = -Infinity;
+        let similarityMessage = "Estou em dúvida, você quer saber sobre ";
+
+        for (let i = 1; i <= responsesMap.size; i++) {
+            if (responsesMap.entries().next().value[i] >= maxSimilarity) {
+                maxItem.set(element.id, element.answer, element.similarity);
+                maxSimilarity = responsesMap.entries().next().value[i].similarity
+            }
+        };
+
+        for (let i = 0; i <= maxItem.size; i++) {
+            maxItem.forEach(element => {
+
+                if (i < maxItem.size) {
+                    similarityMessage = similarityMessage + element[i].id + ", "
+                } else if (i < maxItem.size - 1) {
+                    similarityMessage = similarityMessage + element[i].id + " ou "
+                } else {
+                    similarityMessage = similarityMessage + element[i].id + "?"
                 }
             });
-            
-        });
+        }
 
-        let maiorValor = 0;
+        responses = [];
+        responses.push(similarityMessage);
 
-        // Itera sobre os elementos do mapa
-        resMap.forEach(function ( key, value) {
-            console.log(value)
-            console.log(key)
-
-            // Verifica se o valor atual é maior que o maior valor encontrado até agora
-            if (value > maiorValor) {
-                maiorValor = value;
-                response = key;
-               
-
-            }
-        });
-
-        console.log(resMap)
-        console.log(maiorValor + "     " + response)
-    } else {
-        response = "não tenho resposta pra isso"
-
+    } else if(responsesMap.size === 0) {
+        responses = [];
+        responses.push("não tenho resposta pra isso");
     }
 
-    return response;
+    return responses;
 };
 
 async function fetchJSON(url) {
@@ -124,8 +135,12 @@ async function fetchJSON(url) {
 }
 
 function inputTreatment(input) {
-    input = input.replace(/[^\w\s]/g, '');
+
+    input = input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    input = input.replace("?","");
     input = input.toLowerCase();
     input = input.split(" ");
+    console.log(input)
+
     return input;
 }
